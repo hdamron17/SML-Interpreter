@@ -18,6 +18,7 @@ public:
     cpu(ifstream); //passes stream containing 
     virtual ~cpu(); //default destructor
 private:
+    
 
 };
 
