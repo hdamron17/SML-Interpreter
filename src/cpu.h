@@ -14,8 +14,7 @@ using namespace std;
 
 class cpu {
 public:
-    cpu(); //default constructor
-    cpu(ifstream); //passes stream containing 
+    explicit cpu(ifstream); //passes stream containing machine code
     virtual ~cpu(); //default destructor
 private:
     

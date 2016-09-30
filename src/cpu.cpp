@@ -9,13 +9,6 @@
 #include "cpu.h"
 
 /**
- * Default constructor for virtual CPU
- */
-cpu::cpu() {
-    
-}
-
-/**
  * Constructor from stream containing "machine code"
  * @param file input file stream containing "machine code"
  */
@@ -29,3 +22,7 @@ cpu::cpu(ifstream file) {
 cpu::~cpu() {
 }
 
+struct byte {
+    bool sign; //true = positive; false = negative
+    unsigned char data; //8 bit unsigned value (will have mav_value = 99)
+};
