@@ -6,6 +6,7 @@
  */
 
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include "cpu.h"
 
@@ -27,12 +28,34 @@ cpu::~cpu() {
 }
 
 void cpu::load_mem(istream *file) {
-    char c[5];
-    while(file->get(c, 9000)) {
-        cout << c << endl;
+    string stringop;
+    short opcode;
+    size_t index = 0;
+    (*file) >> stringop;
+    while(!(*file).eof()) {
+        opcode = short(stoi(stringop));
+        ram[index] = opcode;
+        (*file) >> stringop;
+        index++;
+    }
+    while(index < ram.size()) {
+        ram[index] = 0;
+        index++;
     }
 }
 
 void cpu::loop() {
     
+}
+
+string cpu::dump() {
+    stringstream output;
+    for(int i = 0; i < ram.size(); i++) {
+        output << ram[i];
+        if(i % 10)
+            output << endl;
+        else
+            output << "\t";
+        return output.str();
+    }
 }

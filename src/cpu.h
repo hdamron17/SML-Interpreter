@@ -19,11 +19,12 @@ public:
     virtual ~cpu(); //default destructor
     void load_mem(istream*); //loads RAM from ifstream
     void loop(); //main loop which executes until halting
+    string dump(); //dumps all memory
 private:
-    array<signed char, 100> ram;
-    unsigned char ip, //instruction pointer
-                  sp, //stack pointer
-                  acc; //accumulator
+    array<short, 100> ram;
+    unsigned short ip, //instruction pointer
+                   sp; //stack pointer
+    short acc; //accumulator
 };
 
 #endif /* CPU_H */
