@@ -9,16 +9,21 @@
 #define CPU_H
 
 #include <fstream>
+#include <array>
 
 using namespace std;
 
 class cpu {
 public:
-    explicit cpu(ifstream); //passes stream containing machine code
+    explicit cpu(istream*); //passes stream containing machine code
     virtual ~cpu(); //default destructor
+    void load_mem(istream*); //loads RAM from ifstream
+    void loop(); //main loop which executes until halting
 private:
-    
-
+    array<signed char, 100> ram;
+    unsigned char ip, //instruction pointer
+                  sp, //stack pointer
+                  acc; //accumulator
 };
 
 #endif /* CPU_H */

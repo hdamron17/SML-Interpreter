@@ -6,14 +6,18 @@
  */
 
 #include <fstream>
+#include <iostream>
 #include "cpu.h"
+
+using namespace std;
 
 /**
  * Constructor from stream containing "machine code"
  * @param file input file stream containing "machine code"
  */
-cpu::cpu(ifstream file) {
-    
+cpu::cpu(istream *file) {
+    this->load_mem(file);
+    this->loop();
 }
 
 /**
@@ -22,7 +26,13 @@ cpu::cpu(ifstream file) {
 cpu::~cpu() {
 }
 
-struct byte {
-    bool sign; //true = positive; false = negative
-    unsigned char data; //8 bit unsigned value (will have mav_value = 99)
-};
+void cpu::load_mem(istream *file) {
+    char c[5];
+    while(file->get(c, 9000)) {
+        cout << c << endl;
+    }
+}
+
+void cpu::loop() {
+    
+}
