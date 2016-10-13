@@ -21,7 +21,7 @@ using namespace std;
 int main(int argc, char** argv) {
     ifstream test("testcode.txt");
     cpu vm(&test);
-    cout << vm.dump(); // TODO doesn't work!
+    cout << vm.dump();
     return 0;
 }
 

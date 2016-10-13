@@ -18,6 +18,9 @@ using namespace std;
  */
 cpu::cpu(istream *file) {
     this->load_mem(file);
+    ip = 0;
+    sp = 99;
+    
     this->loop();
 }
 
@@ -45,17 +48,18 @@ void cpu::load_mem(istream *file) {
 }
 
 void cpu::loop() {
-    
+    while(true) { //HAHAHA
+        break;
+    }
 }
 
 string cpu::dump() {
     stringstream output;
     for(int i = 0; i < ram.size(); i++) {
-        output << ram[i];
-        if(i % 10)
-            output << endl;
+        if((i + 1) % 10 == 0)
+            output << ram[i] << endl;
         else
-            output << "\t";
-        return output.str();
+            output << ram[i] << "\t";
     }
+    return output.str();
 }

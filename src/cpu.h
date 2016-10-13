@@ -24,7 +24,8 @@ private:
     array<short, 100> ram;
     unsigned short ip, //instruction pointer
                    sp; //stack pointer
-    short acc; //accumulator
+    short acc, //accumulator
+          ir; //instruction register
 };
 
 #endif /* CPU_H */
