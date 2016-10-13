@@ -21,11 +21,11 @@ public:
     void loop(); //main loop which executes until halting
     string dump(); //dumps all memory
 private:
-    array<short, 100> ram;
-    unsigned short ip, //instruction pointer
-                   sp; //stack pointer
-    short acc, //accumulator
-          ir; //instruction register
+    array<int, 100> ram;
+    unsigned int ip, //instruction pointer
+                 sp; //stack pointer
+    int acc, //accumulator
+        ir; //instruction register
 };
 
 #endif /* CPU_H */

@@ -5,13 +5,8 @@
  * Created on September 28, 2016, 10:24 AM
  */
 
-#include <cstdlib>
 #include <fstream>
 #include "src/cpu.h"
-
-//TODO remove
-#include <sstream>
-#include <iostream>
 
 using namespace std;
 
@@ -21,7 +16,6 @@ using namespace std;
 int main(int argc, char** argv) {
     ifstream test("testcode.txt");
     cpu vm(&test);
-    cout << vm.dump();
     return 0;
 }
 
