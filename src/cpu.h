@@ -19,7 +19,7 @@ public:
     virtual ~cpu(); //default destructor
     void load_mem(istream*); //loads RAM from ifstream
     void loop(); //main loop which executes until halting
-    string dump(); //dumps all memory
+    string dump() const; //dumps all memory
 private:
     array<int, 100> ram;
     unsigned int ip, //instruction pointer

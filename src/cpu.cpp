@@ -8,12 +8,14 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
+#include <cmath>
 #include "cpu.h"
 
 using namespace std;
 
-static string RED = "\u001B[31;1m";
-static string RESET = "\u001B[0m";
+static const string RED = "\u001B[31;1m";
+static const string RESET = "\u001B[0m";
 
 /**
  * Constructor from stream containing "machine code"
@@ -66,18 +68,28 @@ void cpu::loop() {
                 string input;
                 cout << "Input %" << input_num << ": ";
                 cin >> input;
-                input_num++;
-                int data = stoi(input);
-                //TODO use try catch and make sure data is less between 0 and 99
-                //for now casting to range
-                if(data > 99) {
-                    cerr << RED << "Invalid input" << RESET << endl;
-                    data = -101 + (data % 100 + 1);
-                } else if(data < -99) {
-                    cerr << RED << "Invalid input" << RESET << endl;
-                    data = 100 + (data % 100 - 1);
+                bool correct = false;
+                int data = 0;
+                while(true) { //loop terminated by break statement
+                    try {
+                        data = stoi(input);
+                        if(data > 99 || data < -100) {
+                            cerr << RED << "Number out of range" 
+                                                               << RESET << endl;
+                            cout << "Try again for input %" << input_num <<": ";
+                            cin >> input;
+                            continue; //tries again after out of bounds
+                        }
+                        input_num++;
+                        break; //breaks out of loop
+                    } catch(invalid_argument& e) {
+                        cerr << RED << "Invalid number format" << RESET << endl;
+                    } catch(out_of_range& e) {
+                        cerr << RED << "Number out of range" << RESET << endl;
+                    }
+                    cout << "Try again for input %" << input_num <<": ";
+                    cin >> input;
                 }
-                //TODO remove above casting
                 ram[address] = data;
                 break;
             } case 11: { //write from address
@@ -145,16 +157,30 @@ void cpu::loop() {
             } case 43: { //halt
                 quit = true;
                 break;
+            } case 00: { //easter egg
+                int size = int(log10(ram[address]));
+                cout << "  "; for(int i = 0; i <= size + 2; i++) {cout << "_";}
+                cout << "\n < " << ram[address] << " >\n  ";
+                for(int i = 0; i <= size + 2; i++) {cout << "-";}
+                cout << "\n    \\\n     \\  __\n       UooU\\.'" 
+                     << RED << "@@@@@@" << RESET << "`.\n       \\__/("
+                     << "\u001B[32;1m@@@@@@@@@@" << RESET << ")\n            ("
+                     << "\u001B[33;1m@@@@@@@@" << RESET << ")\n            `YY"
+                     << "\u001B[34;1m~~~~" << RESET << "YY'\n             ||   "
+                     << " ||\n"; //Don't hate me - it's intentionally obfuscated
+                // Thanks to cowsay sheep.cow file for the design
+                break;
             } default: {
                 //TODO broken opcode
-                cerr << RED << "Broken opcode" << RESET << endl;
+                cerr << RED << "Unknown opcode" << RESET << endl;
+                quit = true;
                 break;
             }
         }
     }
 }
 
-string cpu::dump() {
+string cpu::dump() const {
     stringstream output;
     for(int i = 0; i < ram.size(); i++) {
         if((i + 1) % 10 == 0)
