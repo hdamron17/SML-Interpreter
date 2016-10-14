@@ -19,6 +19,8 @@ using namespace std;
 int main(int argc, char** argv) {
     ifstream test("testcode.txt");
     cpu vm(&test, true);
+    //TODO remove final dump
+    cout << vm.dump();
     return 0;
 }
 

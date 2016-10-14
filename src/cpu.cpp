@@ -95,7 +95,7 @@ void cpu::loop() {
                 while(true) { //loop terminated by break statement
                     try {
                         data = stoi(input);
-                        if(data > 99 || data < -100) {
+                        if(data > 9999 || data < -9999) {
                             cerr << RED << "Number out of range" 
                                                                << RESET << endl;
                             cout << "Try again for input %" << input_num <<": ";
@@ -112,7 +112,7 @@ void cpu::loop() {
                     cout << "Try again for input %" << input_num <<": ";
                     cin >> input;
                 }
-                ram[address] = data;
+                ram[address] = ram[address] + data;
                 break;
             } case 11: { //write from address
                 if(sheeped) {
@@ -130,18 +130,18 @@ void cpu::loop() {
                 break;
             } case 30: { //add to acc
                 acc += ram[address];
-                if(acc > 99) {
+                if(acc > 9999) {
                     //TODO throw error (for now reset from bottom)
                     cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = -200 + acc;
+                    acc = -9999 + acc;
                 }
                 break;
             } case 31: { //sub from acc
                 acc -= ram[address];
-                if(acc < -99) {
+                if(acc < -9999) {
                     //TODO throw error (for now reset to top)
                     cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = 199 + acc;
+                    acc = 9999 + acc;
                 }
                 break;
             } case 32: { //div into acc
@@ -155,14 +155,14 @@ void cpu::loop() {
                 break;
             } case 33: { //mult by acc
                 acc *= ram[address];
-                if(acc > 99) {
+                if(acc > 9999) {
                     //TODO throw error (for now reset to bottom)
                     cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = -101 + (acc % 100 + 1);
-                } else if(acc < -99) {
+                    acc = -9999 + (acc % 10000);
+                } else if(acc < -9999) {
                     //TODO throw errors (for now reset to top)
                     cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = 100 + (acc % 100 - 1);
+                    acc = 9999 + (acc % 10000);
                 }
                 break;
             } case 40: { //branch
