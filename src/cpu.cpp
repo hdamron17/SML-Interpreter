@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <string>
 #include "cpu.h"
 
 using namespace std;
@@ -25,6 +26,20 @@ cpu::cpu(istream *file) {
     this->load_mem(file);
     ip = 0;
     sp = 99;
+    sheeped = false;
+    this->loop();
+}
+
+/**
+ * Constructor from stream containing "machine code" and "sheeped" boolean
+ * @param file input file stream containing "machine code"
+ * @param sheep if true, outputs with a cute, colorful sheep
+ */
+cpu::cpu(istream *file, bool sheep) {
+    this->load_mem(file);
+    ip = 0;
+    sp = 99;
+    sheeped = sheep;
     this->loop();
 }
 
@@ -34,6 +49,10 @@ cpu::cpu(istream *file) {
 cpu::~cpu() {
 }
 
+/**
+ * Loads memory from an input file stream into 100 index array
+ * @param file input file stream with machine code
+ */
 void cpu::load_mem(istream *file) {
     string stringop;
     int opcode;
@@ -51,6 +70,9 @@ void cpu::load_mem(istream *file) {
     }
 }
 
+/**
+ * Executes main loop of code - loops until 4300 HALT is reached
+ */
 void cpu::loop() {
     bool quit = false;
     int input_num = 1;
@@ -93,8 +115,13 @@ void cpu::loop() {
                 ram[address] = data;
                 break;
             } case 11: { //write from address
-                cout << ram[address] << endl;
-                break;
+                if(sheeped) {
+                    cout << sheepout(ram[address]);
+                    break;
+                } else {
+                    cout << ram[address] << endl;
+                    break;
+                }
             } case 20: { //load acc
                 acc = ram[address];
                 break;
@@ -157,19 +184,6 @@ void cpu::loop() {
             } case 43: { //halt
                 quit = true;
                 break;
-            } case 00: { //easter egg
-                int size = int(log10(ram[address]));
-                cout << "  "; for(int i = 0; i <= size + 2; i++) {cout << "_";}
-                cout << "\n < " << ram[address] << " >\n  ";
-                for(int i = 0; i <= size + 2; i++) {cout << "-";}
-                cout << "\n    \\\n     \\  __\n       UooU\\.'" 
-                     << RED << "@@@@@@" << RESET << "`.\n       \\__/("
-                     << "\u001B[32;1m@@@@@@@@@@" << RESET << ")\n            ("
-                     << "\u001B[33;1m@@@@@@@@" << RESET << ")\n            `YY"
-                     << "\u001B[34;1m~~~~" << RESET << "YY'\n             ||   "
-                     << " ||\n"; //Don't hate me - it's intentionally obfuscated
-                // Thanks to cowsay sheep.cow file for the design
-                break;
             } default: {
                 //TODO broken opcode
                 cerr << RED << "Unknown opcode" << RESET << endl;
@@ -180,6 +194,10 @@ void cpu::loop() {
     }
 }
 
+/**
+ * Dumps memory into readable format
+ * @return Returns string containing 10 x 10 array of memory values
+ */
 string cpu::dump() const {
     stringstream output;
     for(int i = 0; i < ram.size(); i++) {
@@ -189,4 +207,34 @@ string cpu::dump() const {
             output << ram[i] << " \t";
     }
     return output.str();
+}
+
+/**
+ * Makes string representation of string with a colorful sheep
+ * @param str string to be outputted
+ * @return returns string with sheep saying the string
+ */
+string cpu::sheepout(string str) {
+    int size = str.length();
+    stringstream ret;
+    ret << "  "; for(int i = 0; i <= size + 1; i++) {ret << "_";}
+    ret << "\n < " << str << " >\n  ";
+    for(int i = 0; i <= size + 1; i++) {ret << "-";}
+    ret << "\n    \\\n     \\  __\n       UooU\\.'" 
+         << RED << "@@@@@@" << RESET << "`.\n       \\__/("
+         << "\u001B[32;1m@@@@@@@@@@" << RESET << ")\n            ("
+         << "\u001B[33;1m@@@@@@@@" << RESET << ")\n            `YY"
+         << "\u001B[34;1m~~~~" << RESET << "YY'\n             ||   "
+         << " ||\n"; //Don't hate me - it's intentionally obfuscated
+    // Thanks to cowsay sheep.cow file for the design
+    return ret.str();
+}
+
+/**
+ * Makes string representation of string with a colorful sheep
+ * @param num number to be displayed
+ * @return returns string with sheep saying the string
+ */
+string cpu::sheepout(int num) {
+    return cpu::sheepout(to_string(num));
 }

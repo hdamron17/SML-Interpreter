@@ -8,6 +8,9 @@
 #include <fstream>
 #include "src/cpu.h"
 
+//TODO remove
+#include <iostream>
+
 using namespace std;
 
 /*
@@ -15,7 +18,7 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     ifstream test("testcode.txt");
-    cpu vm(&test);
+    cpu vm(&test, true);
     return 0;
 }
 
