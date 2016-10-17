@@ -19,7 +19,7 @@ public:
     explicit cpu(istream*, bool); //passes code stream and "sheeped" boolean
     virtual ~cpu(); //default destructor
     void load_mem(istream*); //loads RAM from ifstream
-    void loop(); //main loop which executes until halting
+    void run(); //main loop which executes until halting
     string dump() const; //dumps all memory
     static string sheepout(string); //sheep output
     static string sheepout(int); //sheep output

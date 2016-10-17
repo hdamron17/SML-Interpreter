@@ -27,7 +27,6 @@ cpu::cpu(istream *file) {
     ip = 0;
     sp = 99;
     sheeped = false;
-    this->loop();
 }
 
 /**
@@ -40,7 +39,6 @@ cpu::cpu(istream *file, bool sheep) {
     ip = 0;
     sp = 99;
     sheeped = sheep;
-    this->loop();
 }
 
 /**
@@ -73,7 +71,7 @@ void cpu::load_mem(istream *file) {
 /**
  * Executes main loop of code - loops until 4300 HALT is reached
  */
-void cpu::loop() {
+void cpu::run() {
     bool quit = false;
     int input_num = 1;
     while(!quit) {
