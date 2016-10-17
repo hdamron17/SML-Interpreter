@@ -184,6 +184,8 @@ void cpu::loop() {
             } case 43: { //halt
                 quit = true;
                 break;
+            } case 00: { //NOP
+                break;
             } default: {
                 //TODO broken opcode
                 cerr << RED << "Unknown opcode" << RESET << endl;
