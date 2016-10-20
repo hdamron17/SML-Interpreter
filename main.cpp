@@ -33,62 +33,79 @@ void unittest() {
             "  10. Err2\n"
             ">>> ";
     cin >> selection;
-    num = stoi(selection);
-    cout << "Would you like to sheep out your code (y/n)?\n>>> ";
+    try{
+        num = stoi(selection);
+    } catch(invalid_argument& e) {
+        cerr << "\u001B[31mInvalid unittest selection. Using Sum1 by default"
+                "\u001B[0m" << endl;
+        selection = 1;
+    }
+    cout << "Would you like to sheep out your code (y/n | default: n)?\n>>> ";
     cin >> sheepstr;
-    cout << sheepstr[0] << endl;
-    sheep = sheepstr[0] == 'y';
+    if(sheepstr.size() == 0)
+        sheep = false;
+    else
+        sheep = sheepstr[0] == 'y';
     switch(num) {
         case 1: {
             filename = "Sum1.txt";
             break;
-        }
-        case 2: {
+        } case 2: {
             filename = "Sub1.txt";
             break;
-        }
-        case 3: {
+        } case 3: {
             filename = "Mul1.txt";
             break;
-        }
-        case 4: {
+        } case 4: {
             filename = "Div1.txt";
             break;
-        }
-        case 5: {
+        } case 5: {
             filename = "GreaterTest.txt";
             break;
-        }
-        case 6: {
+        } case 6: {
             filename = "TinyLoop.txt";
             break;
-        }
-        case 7: {
+        } case 7: {
             filename = "LargeLoop.txt";
             break;
-        }
-        case 8: {
+        } case 8: {
             filename = "LargerLoop.txt";
             break;
-        }
-        case 9: {
+        } case 9: {
             filename = "Err1.txt";
             break;
-        }
-        case 10: {
+        } case 10: {
             filename = "Err2.txt";
             break;
-        }
+        } 
     }
     ifstream test(filename);
     cpu vm(&test, sheep);
     vm.run();
 }
+
 /*
  * Main function for SML VM
+ * Note: accepts filename as only command line argument
  */
 int main(int argc, char** argv) {
-    unittest();
+    if(argc > 1) {
+        ifstream test(argv[1]);
+        
+        string sheepstr;
+        bool sheep;
+        cout << "Would you like to sheep out your code (y/n | default: n)?\n>>> ";
+        cin >> sheepstr;
+        if(sheepstr.size() == 0)
+            sheep = false;
+        else
+        sheep = sheepstr[0] == 'y';
+        
+        cpu vm(&test, sheep);
+        vm.run();
+    } else {
+        unittest();
+    }
     return 0;
 }
 

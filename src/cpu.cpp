@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <cmath>
 #include <string>
+#include <stdexcept>
 #include "cpu.h"
 
 using namespace std;
@@ -76,12 +77,11 @@ void cpu::run() {
     int input_num = 1;
     while(!quit) {
         ir = ram[ip];
-        ip++;
         int opcode = ir / 100; //top half
         int address = ir % 100; //bottom half
         if(address < 0 || address > 99) {
-            //TODO check if address is between 0 and 99
-            cerr << RED << "Broken address" << RESET << endl;
+            cerr << RED << "Error: Invalid address accessing - thrown from [" 
+                                << ip << "] -> " << ram[ip] << RESET << endl;
         }
         switch(opcode) {
             case 10: { //read to address
@@ -130,23 +130,25 @@ void cpu::run() {
                 acc += ram[address];
                 if(acc > 9999) {
                     //TODO throw error (for now reset from bottom)
-                    cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = -9999 + acc;
+                    cerr << RED << "Error: Accumulator overflow - thrown from ["
+                                   << ip << "] -> " << ram[ip] << RESET << endl;
+                    quit = true;
                 }
                 break;
             } case 31: { //sub from acc
                 acc -= ram[address];
                 if(acc < -9999) {
                     //TODO throw error (for now reset to top)
-                    cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = 9999 + acc;
+                    cerr << RED << "Error: Accumulator overflow - thrown from ["
+                                   << ip << "] -> " << ram[ip] << RESET << endl;
+                    quit = true;
                 }
                 break;
             } case 32: { //div into acc
                 if(ram[address] == 0) {
-                    cerr << RED << "Cannot divide by zero - I ignored you"
-                                                               << RESET << endl;
-                    // TODO throw error (for now yell at user)
+                    cerr << RED << "Error: Division by zero - thrown from ["
+                                   << ip << "] -> " << ram[ip] << RESET << endl;
+                    quit = true;
                 } else {
                     acc /= ram[address];
                 }
@@ -155,12 +157,13 @@ void cpu::run() {
                 acc *= ram[address];
                 if(acc > 9999) {
                     //TODO throw error (for now reset to bottom)
-                    cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = -9999 + (acc % 10000);
+                    cerr << RED << "Error: Accumulator overflow - thrown from [" 
+                                   << ip << "] -> " << ram[ip] << RESET << endl;
+                    quit = true;
                 } else if(acc < -9999) {
-                    //TODO throw errors (for now reset to top)
-                    cerr << RED << "Accumulator overflow" << RESET << endl;
-                    acc = 9999 + (acc % 10000);
+                    cerr << RED << "Error: Accumulator overflow - thrown from [" 
+                                   << ip << "] -> " << ram[ip] << RESET << endl;
+                    quit = true;
                 }
                 break;
             } case 40: { //branch
@@ -185,12 +188,13 @@ void cpu::run() {
             } case 00: { //NOP
                 break;
             } default: {
-                //TODO broken opcode
-                cerr << RED << "Unknown opcode" << RESET << endl;
+                cerr << RED << "Error: Unknown opcode - thrown from [" << ip 
+                                         << "] -> " << ram[ip] << RESET << endl;
                 quit = true;
                 break;
             }
         }
+        ip++;
     }
 }
 
