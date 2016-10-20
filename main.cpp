@@ -15,7 +15,7 @@ using namespace std;
  * Unittest selects from test code database
  */
 void unittest() {
-    string filename;
+    string filename = "";
     string selection;
     int num; //selection number
     string sheepstr;
@@ -57,34 +57,34 @@ void unittest() {
     }
     switch(num) {
         case 1: {
-            filename = "Sum1.txt";
+            filename = "tests/Sum1.txt";
             break;
         } case 2: {
-            filename = "Sub1.txt";
+            filename = "tests/Sub1.txt";
             break;
         } case 3: {
-            filename = "Mul1.txt";
+            filename = "tests/Mul1.txt";
             break;
         } case 4: {
-            filename = "Div1.txt";
+            filename = "tests/Div1.txt";
             break;
         } case 5: {
-            filename = "GreaterTest.txt";
+            filename = "tests/GreaterTest.txt";
             break;
         } case 6: {
-            filename = "TinyLoop.txt";
+            filename = "tests/TinyLoop.txt";
             break;
         } case 7: {
-            filename = "LargeLoop.txt";
+            filename = "tests/LargeLoop.txt";
             break;
         } case 8: {
-            filename = "LargerLoop.txt";
+            filename = "tests/LargerLoop.txt";
             break;
         } case 9: {
-            filename = "Err1.txt";
+            filename = "tests/Err1.txt";
             break;
         } case 10: {
-            filename = "Err2.txt";
+            filename = "tests/Err2.txt";
             break;
         } 
     }
