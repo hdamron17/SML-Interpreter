@@ -73,6 +73,14 @@ void cpu::load_mem(istream *file) {
  * Executes main loop of code - loops until 4300 HALT is reached
  */
 void cpu::run() {
+    run(false);
+}
+
+/**
+ * Executes main loop of code - loops until 4300 HALT is reached
+ * @param: debug: prints debug dump after each command
+ */
+void cpu::run(bool debug) {
     bool quit = false;
     int input_num = 1;
     while(!quit) {
@@ -188,6 +196,9 @@ void cpu::run() {
                 break;
             }
         }
+        if(debug) {
+            cout << dump();
+        }
         ip++;
     }
 }
@@ -198,12 +209,15 @@ void cpu::run() {
  */
 string cpu::dump() const {
     stringstream output;
+    output << "=====\nMemory Dump from [" << ip << "] -> " << ram[ip]
+                                    << "; acc = " << acc << "\n";
     for(int i = 0; i < ram.size(); i++) {
         if((i + 1) % 10 == 0)
             output << ram[i] << " \n";
         else
             output << ram[i] << " \t";
     }
+    output << "=====\n";
     return output.str();
 }
 
