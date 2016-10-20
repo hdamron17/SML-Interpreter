@@ -35,17 +35,26 @@ void unittest() {
     cin >> selection;
     try{
         num = stoi(selection);
+        if(num > 10 | num < 0) {
+            cerr << "\u001B[31mInvalid unittest selection. Using Sum1 by default"
+                    "\u001B[0m" << endl;
+            num = 1;
+        }
     } catch(invalid_argument& e) {
-        cerr << "\u001B[31mInvalid unittest selection. Using Sum1 by default"
+        cerr << "\u001B[31mInvalid unittest selection. Using \'Sum1\' by default"
                 "\u001B[0m" << endl;
-        selection = 1;
+        num = 1;
     }
     cout << "Would you like to sheep out your code (y/n | default: n)?\n>>> ";
     cin >> sheepstr;
-    if(sheepstr.size() == 0)
+    if(sheepstr.size() == 0 | sheepstr[0] == 'n')
         sheep = false;
-    else
-        sheep = sheepstr[0] == 'y';
+    else if(sheepstr[0] == 'y') {
+        sheep = true;
+    } else {
+        cerr << "\u001B[31mThe sheep is confused and refuses to speak"
+                "\u001B[0m" << endl;
+    }
     switch(num) {
         case 1: {
             filename = "Sum1.txt";
@@ -96,10 +105,14 @@ int main(int argc, char** argv) {
         bool sheep;
         cout << "Would you like to sheep out your code (y/n | default: n)?\n>>> ";
         cin >> sheepstr;
-        if(sheepstr.size() == 0)
+        if(sheepstr.size() == 0 | sheepstr[0] == 'n')
             sheep = false;
-        else
-        sheep = sheepstr[0] == 'y';
+        else if(sheepstr[0] == 'y') {
+            sheep = true;
+        } else {
+            cerr << "\u001B[31mThe sheep is confused and refuses to speak"
+                    "\u001B[0m" << endl;
+        }
         
         cpu vm(&test, sheep);
         vm.run();
