@@ -129,7 +129,6 @@ void cpu::run() {
             } case 30: { //add to acc
                 acc += ram[address];
                 if(acc > 9999) {
-                    //TODO throw error (for now reset from bottom)
                     cerr << RED << "Error: Accumulator overflow - thrown from ["
                                    << ip << "] -> " << ram[ip] << RESET << endl;
                     quit = true;
@@ -138,7 +137,6 @@ void cpu::run() {
             } case 31: { //sub from acc
                 acc -= ram[address];
                 if(acc < -9999) {
-                    //TODO throw error (for now reset to top)
                     cerr << RED << "Error: Accumulator overflow - thrown from ["
                                    << ip << "] -> " << ram[ip] << RESET << endl;
                     quit = true;
@@ -156,7 +154,6 @@ void cpu::run() {
             } case 33: { //mult by acc
                 acc *= ram[address];
                 if(acc > 9999) {
-                    //TODO throw error (for now reset to bottom)
                     cerr << RED << "Error: Accumulator overflow - thrown from [" 
                                    << ip << "] -> " << ram[ip] << RESET << endl;
                     quit = true;
@@ -167,17 +164,14 @@ void cpu::run() {
                 }
                 break;
             } case 40: { //branch
-                //TODO make sure address is between 0 and 99
                 ip = address;
                 break;
             } case 41: { //branch if negative
-                //TODO make sure address is between 0 and 99
                 if(acc < 0) {
                     ip = address;
                 }
                 break;
             } case 42: { //branch if zero
-                //TODO make sure address is between 0 and 99
                 if(acc == 0) {
                     ip = address;
                 }
