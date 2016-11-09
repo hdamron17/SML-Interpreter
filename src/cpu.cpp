@@ -83,6 +83,7 @@ void cpu::run() {
 void cpu::run(bool debug) {
     bool quit = false;
     int input_num = 1;
+    acc = 0;
     while(!quit) {
         ir = ram[ip];
         int opcode = ir / 100; //top half
@@ -172,16 +173,16 @@ void cpu::run(bool debug) {
                 }
                 break;
             } case 40: { //branch
-                ip = address;
+                ip = address-1; //minus 1 because of increment later
                 break;
             } case 41: { //branch if negative
                 if(acc < 0) {
-                    ip = address;
+                    ip = address-1; //minus 1 because of increment later
                 }
                 break;
             } case 42: { //branch if zero
                 if(acc == 0) {
-                    ip = address;
+                    ip = address-1; //minus 1 because of increment later
                 }
                 break;
             } case 43: { //halt
