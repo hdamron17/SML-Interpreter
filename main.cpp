@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
         }
         
         cpu vm(&test, sheep);
-        vm.run(true);
+        vm.run();
     } else {
         unittest();
     }
