@@ -95,7 +95,7 @@ void cpu::run(bool debug) {
         switch(opcode) {
             case 10: { //read to address
                 string input;
-                cout << "Input %" << input_num << ": ";
+                cout << "Input #" << input_num << ": ";
                 cin >> input;
                 bool correct = false;
                 int data = 0;
