@@ -9,8 +9,8 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=sml-vm
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/sml-vm
+CND_ARTIFACT_NAME_Debug=sml
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/sml
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
 CND_PACKAGE_NAME_Debug=sml-vm.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/sml-vm.tar

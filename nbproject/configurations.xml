@@ -56,6 +56,9 @@
         <ccTool>
           <standard>8</standard>
         </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sml</output>
+        </linkerTool>
       </compileType>
       <item path="compiled.sml" ex="false" tool="3" flavor2="0">
       </item>
