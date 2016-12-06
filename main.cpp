@@ -89,6 +89,11 @@ void unittest() {
         } 
     }
     ifstream test(filename);
+    if(!test)
+    {
+        cerr << "Invalid testing file name " << filename << endl;
+        exit(EXIT_FAILURE);
+    }
     cpu vm(&test, sheep);
     vm.run();
 }
@@ -100,7 +105,11 @@ void unittest() {
 int main(int argc, char** argv) {
     if(argc > 1) {
         ifstream test(argv[1]);
-        
+        if(!test)
+        {
+            cerr << "Invalid file name " << argv[1] << endl;
+            exit(EXIT_FAILURE);
+        }
         string sheepstr;
         bool sheep;
         cout << "Would you like to sheep out your code (y/n | default: n)?\n>>> ";
