@@ -317,6 +317,9 @@ string cpu::sheepout(int num) {
  * @return Returns string representation
  */
 string cpu::manual_to_string(int num) {
+    if(num == 0) {
+        return "0";
+    }
     stringstream out;
     if(num < 0) 
     {
@@ -325,7 +328,7 @@ string cpu::manual_to_string(int num) {
     }
     
     int power = 1;
-    while(power < num) 
+    while(power <= num) 
         power *= 10;
     
     while(power > 1) 
