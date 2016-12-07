@@ -22,6 +22,7 @@ public:
     void run(); //main loop which executes until halting
     void run(bool); //main loop which executes until halting
     string dump() const; //dumps all memory
+    static int manual_stoi(string); //manual stoi
     static string sheepout(string); //sheep output
     static string sheepout(int); //sheep output
 private:

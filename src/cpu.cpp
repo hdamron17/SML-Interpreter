@@ -12,6 +12,7 @@
 #include <cmath>
 #include <string>
 #include <stdexcept>
+#include <limits.h>
 #include "cpu.h"
 
 using namespace std;
@@ -58,7 +59,7 @@ void cpu::load_mem(istream *file) {
     size_t index = 0;
     (*file) >> stringop;
     while(!(*file).eof()) {
-        opcode = stoi(stringop);
+        opcode = manual_stoi(stringop);
         ram[index] = opcode;
         (*file) >> stringop;
         index++;
@@ -101,7 +102,7 @@ void cpu::run(bool debug) {
                 int data = 0;
                 while(true) { //loop terminated by break statement
                     try {
-                        data = stoi(input);
+                        data = manual_stoi(input);
                         if(data > 9999 || data < -9999) {
                             cerr << RED << "Number out of range" 
                                                                << RESET << endl;
@@ -220,6 +221,49 @@ string cpu::dump() const {
     }
     output << "=====\n";
     return output.str();
+}
+
+/**
+ * Does stoi but manually
+ * @param str String to be parsed to int
+ * @return Returns string as an int
+ * @throws Throws out_of_range if number is too big or small
+ * @throws Throws invalid_argument if str does not have valid number
+ */
+int cpu::manual_stoi(string str)
+{
+    bool negative = false; //true if str starts with negative sign
+    int value = 0; //value parsed
+    bool first = true; //true if first instance
+    for(char i : str)
+    {
+        if(first && str[0] == '-') 
+        {
+            negative = false;
+        }
+        else 
+        {
+            int digit = ((int)i) - 48; //Subtract 30 hex to be 0 - 10 if number
+            if(digit >= 0 && digit < 10) 
+            {
+                if(value > INT_MAX / 10) //multiplying by 10 will overflow
+                    throw out_of_range("Number too big");
+                value *= 10; //go up by power of 10
+                
+                if(value > INT_MAX - digit) //adding digit will overflow
+                    throw out_of_range("Number too big");
+                value += digit; //add digit
+            } 
+            else
+            {
+                throw invalid_argument("Invalid character " + i);
+            }
+        }
+        first = false;
+    }
+    if(negative)
+        value = -value;
+    return value;
 }
 
 /**
