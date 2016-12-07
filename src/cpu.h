@@ -25,6 +25,7 @@ public:
     static int manual_stoi(string); //manual stoi
     static string sheepout(string); //sheep output
     static string sheepout(int); //sheep output
+    static string manual_to_string(int); //manual to_string
 private:
     array<int, 100> ram;
     unsigned int ip, //instruction pointer

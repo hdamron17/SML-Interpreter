@@ -13,6 +13,7 @@
 #include <string>
 #include <stdexcept>
 #include <limits.h>
+#include <cstdlib>
 #include "cpu.h"
 
 using namespace std;
@@ -58,6 +59,21 @@ void cpu::load_mem(istream *file) {
     int opcode;
     size_t index = 0;
     (*file) >> stringop;
+    #if __linux__ || __APPLE__
+        //fix annoying line encoding issue on linux
+        if(stringop.size() >= 1 && stringop[stringop.size()-1] == '\r')
+        {
+            stringop.erase(stringop.size()-1, 1); //remove last character if \r because we ain't no Windoze users
+        }
+    #elif _WIN32
+        //fix on windoze
+        if(stringop.size() >= 2 && stringop[stringop.size()-2] != '\r' && stringop[stringop.size()-1] == '\n')
+        {
+            stringop.insert(stringop.size()-1, 1, "\r"); //insert \r before ending \n
+        }
+    #else
+        #error Platform not supported
+    #endif
     while(!(*file).eof()) {
         opcode = manual_stoi(stringop);
         ram[index] = opcode;
@@ -292,5 +308,30 @@ string cpu::sheepout(string str) {
  * @return returns string with sheep saying the string
  */
 string cpu::sheepout(int num) {
-    return cpu::sheepout(to_string(num));
+    return cpu::sheepout(manual_to_string(num));
+}
+
+/**
+ * Manual manual_to_string(int) method
+ * @param num Number to be converted
+ * @return Returns string representation
+ */
+string cpu::manual_to_string(int num) {
+    stringstream out;
+    if(num < 0) 
+    {
+        out << "-";
+        num = -num;
+    }
+    
+    int power = 1;
+    while(power < num) 
+        power *= 10;
+    
+    while(power > 1) 
+    {
+        out << (num % power) / (power / 10);
+        power /= 10;
+    }
+    return out.str();
 }
