@@ -69,7 +69,7 @@ void cpu::load_mem(istream *file) {
         //fix on windoze
         if(stringop.size() >= 2 && stringop[stringop.size()-2] != '\r' && stringop[stringop.size()-1] == '\n')
         {
-            stringop.insert(stringop.size()-1, 1, "\r"); //insert \r before ending \n
+            stringop.insert(stringop.size()-1, "\r"); //insert \r before ending \n
         }
     #else
         #error Platform not supported

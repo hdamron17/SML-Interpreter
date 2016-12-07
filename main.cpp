@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include "src/cpu.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ void unittest() {
             ">>> ";
     cin >> selection;
     try{
-        num = stoi(selection);
+        num = cpu::manual_stoi(selection);
         if(num > 10 | num < 0) {
             cerr << "\u001B[31mInvalid unittest selection. Using Sum1 by default"
                     "\u001B[0m" << endl;
