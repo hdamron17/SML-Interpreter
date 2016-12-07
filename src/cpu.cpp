@@ -98,7 +98,6 @@ void cpu::run(bool debug) {
                 string input;
                 cout << "Input #" << input_num << ": ";
                 cin >> input;
-                bool correct = false;
                 int data = 0;
                 while(true) { //loop terminated by break statement
                     try {
@@ -120,7 +119,7 @@ void cpu::run(bool debug) {
                     cout << "Try again for input %" << input_num <<": ";
                     cin >> input;
                 }
-                ram[address] = ram[address] + data;
+                ram[address] = data;
                 break;
             } case 11: { //write from address
                 if(sheeped) {
